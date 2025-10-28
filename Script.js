@@ -538,18 +538,12 @@ function sendToWhatsApp() {
     
     // Formas de pagamento
     message += "Formas de Pagamento:\n";
-    message += "__________\n";
-    message += "Nota: Métodos marcados como 'Verificado' podem ter valor zerado (R$ 0,00).\n";
     message += "__________\n\n";
     
     paymentMethods.forEach(method => {
         if (method.checked) {
             // Mostrar "Batendo" mesmo se o valor for zero
-            message += `[ ✓ ] - ${method.name} - Batendo R$ ${(method.value || 0).toFixed(2)}`;
-            if (method.value <= 0) {
-                message += " (Valor zerado)";
-            }
-            message += "\n";
+            message += `[ ✓ ] - ${method.name} - Batendo R$ ${(method.value || 0).toFixed(2)}\n`;
         } else {
             if (method.status === 'faltando') {
                 message += `[ ✗ ] - ${method.name} - Faltando R$ ${method.value.toFixed(2)}\n`;

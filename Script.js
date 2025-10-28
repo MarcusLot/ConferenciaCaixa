@@ -537,23 +537,23 @@ function sendToWhatsApp() {
     const date = now.toLocaleDateString('pt-BR');
     const time = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
     
-    let message = `CONFERÊNCIA DE CAIXA - ${date}\n[${time}]\n\n`;
+    let message = `*CONFERÊNCIA DE CAIXA* - *${date}*\n*[${time}]*\n\n`;
     
     // Formas de pagamento
-    message += "Formas de Pagamento:\n";
+    message += "*Formas de Pagamento:*\n";
     message += "__________\n\n";
     
     paymentMethods.forEach(method => {
+        const methodName = method.name === 'Link de Pagamento' ? '*Link* de Pagamento' : `*${method.name}*`;
         if (method.checked) {
-            // Mostrar apenas "Batendo" sem o valor
-            message += `[ ✓ ] - ${method.name} - Batendo\n`;
+            message += `[ ✓ ] - ${methodName} - Batendo\n`;
         } else {
             if (method.status === 'faltando') {
-                message += `[ ✗ ] - ${method.name} - Faltando R$ ${method.value.toFixed(2)}\n`;
+                message += `[ ✗ ] - ${methodName} - Faltando R$ ${method.value.toFixed(2)}\n`;
             } else if (method.status === 'sobrando') {
-                message += `[ ✗ ] - ${method.name} - Sobrando R$ ${method.value.toFixed(2)}\n`;
+                message += `[ ✗ ] - ${methodName} - Sobrando R$ ${method.value.toFixed(2)}\n`;
             } else {
-                message += `[ ✗ ] - ${method.name}\n`;
+                message += `[ ✗ ] - ${methodName}\n`;
             }
         }
     });
@@ -561,11 +561,12 @@ function sendToWhatsApp() {
     message += "__________\n\n";
     
     // Vendedoras
-    message += "Vendedoras:\n";
+    message += "*Vendedoras:*\n";
     message += "__________\n";
     
     sellers.forEach(seller => {
-        message += `${seller.name} | R$ ${seller.value.toFixed(2)} | ${seller.clients} clientes | Ticket: R$ ${seller.ticket.toFixed(2)}\n`;
+        const sellerName = `*${seller.name.toUpperCase()}*`;
+        message += `${sellerName} - R$ ${seller.value.toFixed(2)} - ${seller.clients} clientes - Ticket: R$ ${seller.ticket.toFixed(2)}\n`;
     });
     
     message += "__________\n\n";
@@ -575,9 +576,9 @@ function sendToWhatsApp() {
     const averageTicket = document.getElementById('average-ticket').textContent;
     const totalClients = document.getElementById('total-clients').textContent;
     
-    message += `Total Vendido: ${totalSales}\n`;
-    message += `Total de Clientes: ${totalClients}\n`;
-    message += `Ticket Médio da Loja: ${averageTicket}`;
+    message += `*Total Vendido:* ${totalSales}\n`;
+    message += `*Total de Clientes:* ${totalClients}\n`;
+    message += `*Ticket Médio da Loja:* ${averageTicket}`;
     
     // Codificar mensagem para URL
     const encodedMessage = encodeURIComponent(message);

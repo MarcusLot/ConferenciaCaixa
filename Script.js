@@ -441,7 +441,10 @@ function loadSavedData() {
                         // Atualizar visual se verificado
                         if (method.checked) {
                             methodElement.classList.add('verified');
-                            methodElement.querySelector('span').classList.add('verified');
+                            const spanElement = methodElement.querySelector('span');
+                            if (spanElement) {
+                                spanElement.classList.add('verified');
+                            }
                         }
                     }
                 });
